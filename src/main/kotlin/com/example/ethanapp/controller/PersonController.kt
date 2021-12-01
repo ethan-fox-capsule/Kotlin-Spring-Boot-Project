@@ -1,7 +1,7 @@
 package com.example.ethanapp.controller
 
 import com.example.ethanapp.repository.PersonRepository
-import com.example.ethanapp.table.Person
+import com.example.ethanapp.entity.Person
 import org.springframework.web.bind.annotation.*
 import java.util.UUID
 
@@ -12,9 +12,17 @@ class PersonController(
 ) {
 
     @GetMapping("/")
-    fun getPeople(): List<Person> {
-        return personRepository.getAll()
+    fun getPeople(): Iterable<Person> {
+        System.out.print("HERERERE")
+        val x = personRepository.findAll()
+        x.forEach { System.out.println(it) }
+        return x
     }
+
+    // @GetMapping("/{id}")
+    // fun getPersonById(@RequestParam(value="id") id String) : Person {
+    //
+    // }
 
     @GetMapping("/parker")
     fun getOtherPerson(): Person {

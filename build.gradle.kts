@@ -6,6 +6,9 @@ plugins {
 	id("org.flywaydb.flyway") version "7.8.1"
 	kotlin("jvm") version "1.6.0"
 	kotlin("plugin.spring") version "1.6.0"
+	kotlin("plugin.jpa") version "1.6.0"
+	kotlin("plugin.serialization") version "1.6.0"
+	// kotlin("plugin.allopen") version "1.6.0"
 }
 
 group = "com.example"
@@ -24,12 +27,17 @@ dependencies {
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
+	implementation("com.vladmihalcea:hibernate-types-55:2.14.0")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.testcontainers:junit-jupiter")
 	testImplementation("org.testcontainers:postgresql")
-	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+
+	// TODO Choose one or the other
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.hibernate:hibernate-core")
 }
 
 dependencyManagement {
@@ -48,3 +56,9 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+// allOpen {
+// 	annotation("javax.persistence.Entity")
+// 	annotation("javax.persistence.Embeddable")
+// 	annotation("javax.persistence.MappedSuperclass")
+// }
