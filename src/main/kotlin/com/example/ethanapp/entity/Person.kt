@@ -22,11 +22,6 @@ class Person(
     var doc: String? = null
 )
 
-@Serializable
-class Doc(
-    val a: Int
-)
-
 @ExperimentalSerializationApi
 @Serializer(forClass = UUID::class)
 object UUIDSerializer : KSerializer<UUID> {
