@@ -17,8 +17,6 @@ class Person(
     var name: String?,
     var age: Int?,
     var gender: String?,
-
-    // @Serializable(with = DocSerializer::class)
     var doc: String? = null
 )
 
@@ -36,21 +34,3 @@ object UUIDSerializer : KSerializer<UUID> {
         return UUID.fromString(decoder.decodeString())
     }
 }
-
-@ExperimentalSerializationApi
-@Serializer(forClass = Doc::class)
-object DocSerializer : KSerializer<Doc> {
-    override val descriptor: SerialDescriptor
-        get() = PrimitiveSerialDescriptor("Doc", PrimitiveKind.STRING)
-
-    override fun serialize(encoder: Encoder, value: Doc) {
-        encoder.encodeString(value.toString())
-    }
-
-    override fun deserialize(decoder: Decoder): Doc {
-        return Doc(decoder.decodeInt())
-    }
-}
-
-
-// object DocSerializer : KSerializer<M
