@@ -1,7 +1,9 @@
 package com.example.ethanapp.controller
 
+import com.example.ethanapp.entity.*
 import com.example.ethanapp.repository.PersonRepository
-import com.example.ethanapp.entity.Person
+import com.example.ethanapp.model.*
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -21,26 +23,18 @@ class PersonController(
         return personRepository.findById(UUID.fromString(personId))
     }
 
-    @GetMapping("/parker")
-    fun getOtherPerson(): Person {
-        val p = Person(
-            id= UUID.randomUUID(),
-            name="parker",
-            age=15,
-            gender = "male"
-        )
-        return p
-    }
+    @PostMapping("/")
+    @ResponseStatus(code = HttpStatus.CREATED)
+    fun createPerson(@RequestBody createPersonRequest: CreatePersonRequest): CreatePersonResponse {
 
-    @GetMapping("/ethan")
-    fun getPerson(): Person {
         val p = Person(
-            id= UUID.randomUUID(),
-            name="ethan",
-            age=18,
-            gender = "male"
+            name = createPersonRequest.name,
+            age = createPersonRequest.age,
+            gender = createPersonRequest.gender,
+            doc = createPersonRequest.doc?.let { Doc(createPersonRequest.doc.stuff) }
         )
-        return p
-    }
 
+        personRepository.save(p)
+        return CreatePersonResponse(p)
+    }
 }

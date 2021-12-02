@@ -1,23 +1,36 @@
 package com.example.ethanapp.entity
 
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
-import kotlinx.serialization.json.*
+import org.hibernate.annotations.*
 import java.util.UUID
-import javax.persistence.Id
+import javax.persistence.*
 import javax.persistence.Entity
 
 @Entity
 @Serializable
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType::class)
 class Person(
+
     @Id
     @Serializable(with = UUIDSerializer::class)
-    var id: UUID,
-    var name: String?,
-    var age: Int?,
-    var gender: String?,
-    var doc: String? = null
+    val id: UUID = UUID.randomUUID(),
+    val name: String?,
+    val age: Int?,
+    val gender: String?,
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
+    @Basic(fetch = FetchType.LAZY)
+    val doc: Doc? = null
+)
+
+@Serializable
+class Doc(
+    val stuff: Int? = null
 )
 
 @ExperimentalSerializationApi
