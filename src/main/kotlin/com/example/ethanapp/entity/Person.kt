@@ -1,11 +1,11 @@
 package com.example.ethanapp.entity
 
-import com.fasterxml.jackson.annotation.*
+import com.example.ethanapp.serializer.InstantSerializer
+import com.example.ethanapp.serializer.UUIDSerializer
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType
 import kotlinx.serialization.*
-import kotlinx.serialization.descriptors.*
-import kotlinx.serialization.encoding.*
 import org.hibernate.annotations.*
+import java.time.Instant
 import java.util.UUID
 import javax.persistence.*
 import javax.persistence.Entity
@@ -13,7 +13,7 @@ import javax.persistence.Entity
 @Entity
 @Serializable
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType::class)
-class Person(
+data class Person (
 
     @Id
     @Serializable(with = UUIDSerializer::class)
@@ -21,6 +21,10 @@ class Person(
     val name: String?,
     val age: Int?,
     val gender: String?,
+
+    @Serializable(with = InstantSerializer::class)
+    @Column(name = "created_at")
+    val createdAt: Instant = Instant.now(),
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
@@ -30,7 +34,7 @@ class Person(
 
 @Serializable
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType::class)
-class Doc(
+data class Doc(
     val stuff: Int? = null,
 
     @Type(type = "jsonb")
@@ -40,21 +44,6 @@ class Doc(
 )
 
 @Serializable
-class NestedDoc(
+data class NestedDoc(
     val nestedStuff: String? = null
 )
-
-@ExperimentalSerializationApi
-@Serializer(forClass = UUID::class)
-object UUIDSerializer : KSerializer<UUID> {
-    override val descriptor: SerialDescriptor
-        get() = PrimitiveSerialDescriptor("UUID", PrimitiveKind.STRING)
-
-    override fun serialize(encoder: Encoder, value: UUID) {
-        encoder.encodeString(value.toString())
-    }
-
-    override fun deserialize(decoder: Decoder): UUID {
-        return UUID.fromString(decoder.decodeString())
-    }
-}

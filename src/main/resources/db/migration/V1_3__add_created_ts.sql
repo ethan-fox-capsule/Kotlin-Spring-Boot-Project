@@ -1,0 +1,2 @@
+ALTER TABLE person
+    ADD COLUMN created_at TIMESTAMP

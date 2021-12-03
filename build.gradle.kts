@@ -8,7 +8,6 @@ plugins {
 	kotlin("plugin.spring") version "1.6.0"
 	kotlin("plugin.jpa") version "1.6.0"
 	kotlin("plugin.serialization") version "1.6.0"
-	// kotlin("plugin.allopen") version "1.6.0"
 }
 
 group = "com.example"
@@ -29,7 +28,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.hibernate:hibernate-core")
+	implementation("org.hibernate:hibernate-core:5.6.1.Final")
 	implementation("com.vladmihalcea:hibernate-types-55:2.14.0")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
@@ -54,9 +53,3 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
-
-// allOpen {
-// 	annotation("javax.persistence.Entity")
-// 	annotation("javax.persistence.Embeddable")
-// 	annotation("javax.persistence.MappedSuperclass")
-// }
