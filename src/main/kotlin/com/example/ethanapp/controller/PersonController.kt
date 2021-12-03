@@ -31,7 +31,11 @@ class PersonController(
             name = createPersonRequest.name,
             age = createPersonRequest.age,
             gender = createPersonRequest.gender,
-            doc = createPersonRequest.doc?.let { Doc(createPersonRequest.doc.stuff) }
+            doc = createPersonRequest.doc?.let {
+                Doc(
+                    createPersonRequest.doc.stuff,
+                    NestedDoc(
+                        createPersonRequest.doc.nestedDoc?.nestedStuff)) }
         )
 
         personRepository.save(p)

@@ -1,6 +1,6 @@
 package com.example.ethanapp.entity
 
-import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.*
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
@@ -29,8 +29,19 @@ class Person(
 )
 
 @Serializable
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType::class)
 class Doc(
-    val stuff: Int? = null
+    val stuff: Int? = null,
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
+    @Basic(fetch = FetchType.LAZY)
+    val nestedDoc: NestedDoc? = null
+)
+
+@Serializable
+class NestedDoc(
+    val nestedStuff: String? = null
 )
 
 @ExperimentalSerializationApi

@@ -13,7 +13,13 @@ class CreatePersonRequest(
 
 @Serializable
 class CreatePersonRequestDoc(
-    val stuff: Int? = null
+    val stuff: Int? = null,
+    val nestedDoc: ReqNestedDoc? = null
+)
+
+@Serializable
+class ReqNestedDoc(
+    val nestedStuff: String? = null
 )
 
 @Serializable
